@@ -1,19 +1,22 @@
 defmodule Advent2023.Helpers do
   @day_re ~r/Elixir.Advent2023.Day(?<day>\d{2})/
 
-  @spec input_for(module(), 1 | 2) :: String.t()
+  @spec input_for(module(), 1 | 2 | :sample) :: String.t()
   def input_for(module, part) do
     filepath = input_filepath_for(module, part)
-    File.read!(filepath)
+
+    filepath
+    |> File.read!()
   end
 
-  @spec input_lines_for(module, 1 | 2) :: Stream.t()
+  @spec input_lines_for(module, 1 | 2 | :sample) :: Stream.t()
   def input_lines_for(module, part \\ 1) do
     filepath = input_filepath_for(module, part)
 
     filepath
     |> File.stream!()
     |> Stream.map(&String.trim/1)
+    |> Enum.into([])
   end
 
   defp input_filepath_for(module, part) do
