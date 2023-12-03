@@ -21,7 +21,8 @@ defmodule Advent2023.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:nimble_parsec, "~> 1.4"}
+      {:nimble_parsec, "~> 1.4"},
+      {:nx, "~> 0.6"}
     ]
   end
 end
