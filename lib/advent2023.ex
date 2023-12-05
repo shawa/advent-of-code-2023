@@ -19,7 +19,7 @@ defmodule Advent2023 do
 
   @spec run(module()) :: :ok
   def run(day) do
-    input_lines = Helpers.input_lines_for(day)
+    input_lines = input_format_for(day).(day)
 
     part_1_result = day.part_one(input_lines)
     part_2_result = day.part_two(input_lines)
@@ -31,4 +31,10 @@ defmodule Advent2023 do
     Part 2: #{part_2_result}
     """)
   end
+
+  def input_format_for(Advent2023.Day01), do: &Helpers.input_lines_for/1
+  def input_format_for(Advent2023.Day02), do: &Helpers.input_lines_for/1
+  def input_format_for(Advent2023.Day03), do: &Helpers.input_lines_for/1
+  def input_format_for(Advent2023.Day04), do: &Helpers.input_lines_for/1
+  def input_format_for(Advent2023.Day05), do: &Helpers.input_for/1
 end
