@@ -32,9 +32,6 @@ defmodule Advent2023 do
     """)
   end
 
-  def input_format_for(Advent2023.Day01), do: &Helpers.input_lines_for/1
-  def input_format_for(Advent2023.Day02), do: &Helpers.input_lines_for/1
-  def input_format_for(Advent2023.Day03), do: &Helpers.input_lines_for/1
-  def input_format_for(Advent2023.Day04), do: &Helpers.input_lines_for/1
   def input_format_for(Advent2023.Day05), do: &Helpers.input_for/1
+  def input_format_for(_), do: &Helpers.input_lines_for/1
 end
