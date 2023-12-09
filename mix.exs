@@ -21,9 +21,10 @@ defmodule Advent2023.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:libgraph, "~> 0.16.0"},
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
       {:nimble_parsec, "~> 1.4"},
-      {:nx, "~> 0.6"},
-      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
+      {:nx, "~> 0.6"}
     ]
   end
 end
