@@ -1,4 +1,6 @@
 defmodule Advent2023.Day04 do
+  use Advent2023.Day, input: :lines
+
   alias Advent2023.Day04.Parser
   alias Advent2023.Day04.Card
 

@@ -1,4 +1,6 @@
 defmodule Advent2023.Day03 do
+  use Advent2023.Day, input: :lines
+
   import Nx.Defn
 
   @convolution_directions [
@@ -111,8 +113,6 @@ defmodule Advent2023.Day03 do
   def pad_config_for(:down_left), do: [{1, -1, 0}, {-1, 1, 0}]
   def pad_config_for(:left), do: [{0, 0, 0}, {-1, 1, 0}]
   def pad_config_for(:up_left), do: [{-1, 1, 0}, {-1, 1, 0}]
-
-  def part_two(input), do: part_one(input)
 
   def stringly_inspect(t) do
     t
