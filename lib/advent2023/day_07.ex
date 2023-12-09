@@ -1,4 +1,6 @@
 defmodule Advent2023.Day07 do
+  use Advent2023.Day, input: :lines
+
   def part_one(input) do
     input
     |> Enum.map(&parse_line/1)
