@@ -1,9 +1,10 @@
 defmodule Advent2023.Day02 do
+  use Advent2023.Day, input: :lines
+
   alias Advent2023.Day02.Game
   alias Advent2023.Day02.Handful
   alias Advent2023.Day02.Parser
 
-  @spec part_one([String.t()]) :: number()
   def part_one(lines) do
     configuration = %Handful{red: 12, green: 13, blue: 14}
 
@@ -14,7 +15,6 @@ defmodule Advent2023.Day02 do
     |> Enum.sum()
   end
 
-  @spec part_two([String.t()]) :: number()
   def part_two(lines) do
     lines
     |> Enum.map(&Parser.parse!/1)
