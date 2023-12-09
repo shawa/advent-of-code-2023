@@ -1,4 +1,6 @@
 defmodule Advent2023.Day05 do
+  use Advent2023.Day, input: :binary
+
   alias Advent2023.Day05.Parser
   alias Advent2023.Day05.Mapping
 
@@ -23,6 +25,4 @@ defmodule Advent2023.Day05 do
     m = Mapping.map_number(mapping, n)
     map_seed(mappings, m, mapping.destination)
   end
-
-  def part_two(input), do: part_one(input)
 end
