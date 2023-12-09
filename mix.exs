@@ -22,7 +22,8 @@ defmodule Advent2023.MixProject do
   defp deps do
     [
       {:nimble_parsec, "~> 1.4"},
-      {:nx, "~> 0.6"}
+      {:nx, "~> 0.6"},
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
 end

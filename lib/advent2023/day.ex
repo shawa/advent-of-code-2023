@@ -17,7 +17,7 @@ defmodule Advent2023.Day do
         )
       end
 
-      def run() do
+      def run(part_or_sample \\ 1) do
         format_atom =
           fn
             :part_one -> "Part 1"
@@ -35,7 +35,7 @@ defmodule Advent2023.Day do
           function_exported?(module, function, arity)
         end)
         |> Enum.map(fn {module, function, _arity} ->
-          {function, apply(module, function, [input()])}
+          {function, apply(module, function, [input(part_or_sample)])}
         end)
       end
     end
