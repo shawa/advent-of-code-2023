@@ -7,7 +7,11 @@ defmodule Advent2023.Day08 do
   def part_one(input) do
     {instructions, graph} = parse_input(input)
 
-    iterations_until(graph, instructions, "AAA", "ZZZ") * Enum.count(instructions)
+    supergraph = build_supergraph(graph, instructions)
+    path = Graph.dijkstra(supergraph, "AAA", "ZZZ")
+    n_edges = Enum.count(path) - 1
+
+    n_edges * Enum.count(instructions)
   end
 
   def build_supergraph(graph, instructions) do
@@ -15,16 +19,6 @@ defmodule Advent2023.Day08 do
     |> Graph.vertices()
     |> Enum.map(&{&1, follow_instructions(graph, &1, instructions)})
     |> then(&Graph.add_edges(Graph.new(), &1))
-  end
-
-  def iterations_until(graph, instructions, from, to) do
-    from
-    |> Stream.iterate(&follow_instructions(graph, &1, instructions))
-    |> Stream.with_index(1)
-    |> Stream.take_while(fn {node, _} -> node != to end)
-    |> Stream.map(fn {_, i} -> i end)
-    |> Enum.into([])
-    |> List.last()
   end
 
   def parse_input([instructions, "" | graph]) do
@@ -65,24 +59,14 @@ defmodule Advent2023.Day08 do
   end
 
   def follow(graph, node, left_or_right) do
-    %{v2: node} =
-      case {Graph.out_edges(graph, node), left_or_right} do
-        {[%{label: :left} = left, %{label: :right} = _right], :left} ->
-          left
+    case Graph.out_edges(graph, node) do
+      [%{label: :left} = l, %{label: :right} = r] ->
+        %{left: l, right: r}
 
-        {[%{label: :left} = _left, %{label: :right} = right], :right} ->
-          right
-
-        {[%{label: :right} = _right, %{label: :left} = left], :left} ->
-          left
-
-        {
-          [%{label: :right} = right, %{label: :left} = _left],
-          :right
-        } ->
-          right
-      end
-
-    node
+      [%{label: :right} = r, %{label: :left} = l] ->
+        %{left: l, right: r}
+    end
+    |> Map.fetch!(left_or_right)
+    |> Map.fetch!(:v2)
   end
 end
