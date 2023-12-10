@@ -10,10 +10,11 @@ defmodule Advent2023.Day08 do
     iterations_until(graph, instructions, "AAA", "ZZZ") * Enum.count(instructions)
   end
 
-  def graph() do
-    input(:sample)
-    |> parse_input()
-    |> elem(1)
+  def build_supergraph(graph, instructions) do
+    graph
+    |> Graph.vertices()
+    |> Enum.map(&{&1, follow_instructions(graph, &1, instructions)})
+    |> then(&Graph.add_edges(Graph.new(), &1))
   end
 
   def iterations_until(graph, instructions, from, to) do
