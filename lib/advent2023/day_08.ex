@@ -4,23 +4,6 @@ defmodule Advent2023.Day08 do
 
   @adjacency_list_re ~r/(?<node>[A-Z]{3}) = \((?<left>[A-Z]{3}), (?<right>[A-Z]{3})\)/
 
-  def part_one(input) do
-    {instructions, graph} = parse_input(input)
-
-    supergraph = build_supergraph(graph, instructions)
-    path = Graph.dijkstra(supergraph, "AAA", "ZZZ")
-    n_edges = Enum.count(path) - 1
-
-    n_edges * Enum.count(instructions)
-  end
-
-  def build_supergraph(graph, instructions) do
-    graph
-    |> Graph.vertices()
-    |> Enum.map(&{&1, follow_instructions(graph, &1, instructions)})
-    |> then(&Graph.add_edges(Graph.new(), &1))
-  end
-
   def parse_input([instructions, "" | graph]) do
     edges = Enum.flat_map(graph, &parse_line/1)
 
@@ -50,6 +33,23 @@ defmodule Advent2023.Day08 do
       Edge.new(node, left, label: :left),
       Edge.new(node, right, label: :right)
     ]
+  end
+
+  def part_one(input) do
+    {instructions, graph} = parse_input(input)
+
+    supergraph = build_supergraph(graph, instructions)
+    path = Graph.dijkstra(supergraph, "AAA", "ZZZ")
+    n_edges = Enum.count(path) - 1
+
+    n_edges * Enum.count(instructions)
+  end
+
+  def build_supergraph(graph, instructions) do
+    graph
+    |> Graph.vertices()
+    |> Enum.map(&{&1, follow_instructions(graph, &1, instructions)})
+    |> then(&Graph.add_edges(Graph.new(), &1))
   end
 
   def follow_instructions(graph, start_node, instructions) do
