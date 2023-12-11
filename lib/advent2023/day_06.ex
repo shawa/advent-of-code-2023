@@ -1,9 +1,6 @@
 defmodule Advent2023.Day06 do
   use Advent2023.Day, input: :lines
 
-  @input_1 [{44, 277}, {89, 1136}, {96, 1890}, {91, 1768}]
-  @input_2 [{44_899_691, 277_113_618_901_768}]
-
   def part_one(input) do
     input
     |> parse()
