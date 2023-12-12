@@ -65,6 +65,7 @@ defmodule Advent2023.Day11 do
     coord_line
     |> Enum.with_index()
     |> Enum.map(fn {_, i} -> i end)
+    |> Enum.chunk_by(2, 1, :discard)
   end
 
   def coord_line(charlists, :x), do: zip_or(charlists)

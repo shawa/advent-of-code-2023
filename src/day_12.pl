@@ -8,15 +8,13 @@ contiguous(Term, Length) --> {Length > 0, NewLength is Length - 1}, [Term],
 contiguous(_, 0) 
     --> [].
 
-
+dummy(1).
 
 zero_or_more(Term) 
     --> [Term], zero_or_more(Term).
 
 zero_or_more(_)
      --> [].
-
-
 
 one_or_more(Term) 
     --> [Term], one_or_more(Term).
@@ -41,28 +39,8 @@ dcg(Ns) -->
     zero_or_more('.'), blocks(Ns), zero_or_more('.').
 
 
-example -->
-    zero_or_more('.'),
-    block(3),
-    one_or_more(.),
-    block(2),
-    one_or_more(.),
-    block(1),
-    zero_or_more(.).
-
-example_2 -->
-    zero_or_more('.'),
-    block(1),
-    one_or_more(.),
-    block(6),
-    one_or_more(.),
-    block(5),
-    zero_or_more(.).
-
-debug_1 --> zero_or_more('.'), block(1), zero_or_more('.').
-
 parse([], []).
-parse(['?'|T], [X|Parsed]) :- 
+parse(['?'|T], [_X|Parsed]) :- 
     parse(T, Parsed).
 parse([H|T], [H|Parsed]) :- 
     H \= '?',
@@ -71,6 +49,9 @@ parse([H|T], [H|Parsed]) :-
 find_all_solutions(Solutions) :-
     findall(R, (parse("?###????????", R), phrase(dcg([3,2,1]), R)), Solutions).
 
+place_springs(InPattern, Spec, R) :-
+    findall(Pattern, (parse(InPattern, Pattern), phrase(dcg(Spec), Pattern)), R).
+
 count_solutions(InPattern, Spec, Length) :-
-    findall(R, (parse(InPattern, R), phrase(dcg(Spec), R)), Solutions),
+    place_springs(InPattern, Spec, Solutions),
     length(Solutions, Length).
