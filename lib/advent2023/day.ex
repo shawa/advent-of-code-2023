@@ -7,14 +7,21 @@ defmodule Advent2023.Day do
     quote do
       def input(input_or_sample \\ :input) do
         unquote(
-          if input_format == :lines do
-            quote do
-              Input.input_lines_for(__MODULE__, input_or_sample)
-            end
-          else
-            quote do
-              Input.input_for(__MODULE__, input_or_sample)
-            end
+          case input_format do
+            :lines ->
+              quote do
+                Input.input_lines_for(__MODULE__, input_or_sample)
+              end
+
+            :binary ->
+              quote do
+                Input.input_for(__MODULE__, input_or_sample)
+              end
+
+            :charlists ->
+              quote do
+                Input.input_charlists_for(__MODULE__, input_or_sample)
+              end
           end
         )
       end
