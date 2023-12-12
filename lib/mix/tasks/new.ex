@@ -1,12 +1,6 @@
 defmodule Mix.Tasks.Advent2023.New do
   use Mix.Task
 
-  @module_template """
-  defmodule Advent2023.Day<%= %> do
-
-  end
-  """
-
   def run([n]) do
     create_elixir_modules(n)
   end

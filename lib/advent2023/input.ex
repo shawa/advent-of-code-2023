@@ -12,6 +12,21 @@ defmodule Advent2023.Input do
     |> String.split("\n")
   end
 
+  def input_charlists_for(module, input_or_sample \\ :input) do
+    module
+    |> input_lines_for(input_or_sample)
+    |> Enum.map(&String.to_charlist/1)
+  end
+
+  def stringly_inspect(charlists) do
+    charlists
+    |> Enum.map(&List.to_string/1)
+    |> Enum.join("\n")
+    |> then(&IO.puts(&1 <> "\n"))
+
+    charlists
+  end
+
   defp input_filepath_for(module, part) do
     Path.join([
       :code.priv_dir(:advent_2023),
