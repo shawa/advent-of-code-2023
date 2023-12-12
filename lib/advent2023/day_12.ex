@@ -12,7 +12,6 @@ defmodule Advent2023.Day12 do
     |> Enum.map(&parse/1)
     |> Enum.map(fn [pattern, spec] -> Prolog.solve(pattern, spec) end)
     |> Enum.sum()
-    |> dbg()
   end
 
   def parse(input) do
@@ -24,8 +23,4 @@ defmodule Advent2023.Day12 do
 
   def repeat(_, 0), do: ""
   def repeat(s, n), do: s <> repeat(s, n - 1)
-
-  def repeat_with(_, _, 0), do: ""
-  def repeat_with(s, _, 1), do: s
-  def repeat_with(s, char, n), do: s <> char <> repeat_with(s, char, n - 1)
 end

@@ -1,57 +1,29 @@
 :- set_prolog_flag(double_quotes, chars).
 :- set_prolog_flag(answer_write_options, [max_depth(0)]).
 
+contiguous(X, L) --> {L > 0, L1 is L - 1}, [X], contiguous(X, L1).
+contiguous(_, 0) --> [].
 
-contiguous(Term, Length) --> {Length > 0, NewLength is Length - 1}, [Term],
-                            contiguous(Term, NewLength).
+block(L) --> contiguous('#', L).
 
-contiguous(_, 0) 
-    --> [].
+one_or_more(X) --> [X], one_or_more(X).
+one_or_more(X) --> [X].
 
-dummy(1).
+blocks([T])   --> block(T).
+blocks([H|T]) --> block(H), one_or_more('.'), blocks(T).
 
-zero_or_more(Term) 
-    --> [Term], zero_or_more(Term).
+zero_or_more(X) --> [X], zero_or_more(X).
+zero_or_more(_) --> [].
 
-zero_or_more(_)
-     --> [].
+dcg(Ns) --> zero_or_more('.'), blocks(Ns), zero_or_more('.').
 
-one_or_more(Term) 
-    --> [Term], one_or_more(Term).
+pattern([], []).
+pattern(['?'|T], [_X|Rest]) :- pattern(T, Rest).
+pattern([H|T], [H|Rest]) :- H \= '?', pattern(T, Rest).
 
-one_or_more(Term) 
-    --> [Term].
+place_springs(In, Spec, R) :-
+    findall(Pattern, (pattern(In, Pattern), phrase(dcg(Spec), Pattern)), R).
 
-
-block(L) -->
-    contiguous('#', L).
-
-
-blocks([T]) --> 
-    block(T).
-
-blocks([H|T]) -->
-    block(H),
-    one_or_more('.'),
-    blocks(T).
-
-dcg(Ns) --> 
-    zero_or_more('.'), blocks(Ns), zero_or_more('.').
-
-
-parse([], []).
-parse(['?'|T], [_X|Parsed]) :- 
-    parse(T, Parsed).
-parse([H|T], [H|Parsed]) :- 
-    H \= '?',
-    parse(T, Parsed).
-
-find_all_solutions(Solutions) :-
-    findall(R, (parse("?###????????", R), phrase(dcg([3,2,1]), R)), Solutions).
-
-place_springs(InPattern, Spec, R) :-
-    findall(Pattern, (parse(InPattern, Pattern), phrase(dcg(Spec), Pattern)), R).
-
-count_solutions(InPattern, Spec, Length) :-
-    place_springs(InPattern, Spec, Solutions),
-    length(Solutions, Length).
+count_solutions(In, Spec, L) :- 
+    place_springs(In, Spec, R),
+    length(R, L).

@@ -29,8 +29,22 @@ defmodule Advent2023.Prolog do
     end
   end
 
+  def handle_info(:shutdown, port) do
+    Port.close(port)
+    {:stop, :shutdown, port}
+  end
+
+  @impl true
+  def handle_info(msg, _state) do
+    IO.inspect(msg)
+  end
+
   def prove(goal, parser) when is_binary(goal) do
     GenServer.call(__MODULE__, {:prove, goal, parser})
+  end
+
+  def stop() do
+    GenServer.call(__MODULE__, :shutdown)
   end
 
   def handle_prolog("R = " <> result, parser) do
@@ -45,9 +59,5 @@ defmodule Advent2023.Prolog do
     end
 
     prove("count_solutions(#{pattern}, #{spec}, R).", parser)
-  end
-
-  def handle_info(msg, state) do
-    IO.inspect(msg)
   end
 end

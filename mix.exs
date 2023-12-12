@@ -24,9 +24,7 @@ defmodule Advent2023.MixProject do
       {:libgraph, "~> 0.16.0"},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
       {:nimble_parsec, "~> 1.4"},
-      {:nx, "~> 0.6"},
-      {:erlog,
-       git: "https://github.com/rvirding/erlog", ref: "26ac2415c673683d7c816e3168048be012c86735"}
+      {:nx, "~> 0.6"}
     ]
   end
 end
